@@ -1,0 +1,15 @@
+---
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.6.3
+  Exclude:
+    - 'bin/**/*'
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+Metrics/LineLength:
+  Max: 100
+  IgnoreCopDirectives: true
+Style/Documentation:
+  Enabled: false
