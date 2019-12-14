@@ -19,8 +19,12 @@ gem 'bcrypt', '~> 3.1.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 # Ruby implementation of GraphQL
 gem 'graphql'
+# A query batching executor for the graphql gem
+gem 'graphql-batch'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
+# File attachment toolkit for Ruby applications
+gem 'shrine'
 
 group :development, :test do
   # A runtime developer console and IRB alternative with powerful introspection capabilities.
