@@ -25,6 +25,8 @@ gem 'graphql-batch'
 gem 'rack-cors'
 # File attachment toolkit for Ruby applications
 gem 'shrine'
+# Authentication
+gem 'warden'
 
 group :development, :test do
   # A runtime developer console and IRB alternative with powerful introspection capabilities.

@@ -11,7 +11,8 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # current_user: current_user,
+      warden: warden,
+      viewer: viewer
     }
     result = CookingServerSchema.execute(query, variables: variables,
                                                 context: context,
@@ -21,7 +22,14 @@ class GraphqlController < ApplicationController
 
   private
 
-  # Handle form data, JSON body, or a blank value
+  def viewer
+    warden&.user
+  end
+
+  def warden
+    request.env['warden']
+  end
+
   def ensure_hash(ambiguous_param) # rubocop:disable Metrics/MethodLength
     case ambiguous_param
     when String

@@ -31,6 +31,8 @@ module Types
       argument :recipe_ingredient_id, ID, required: true
     end
 
+    field :viewer, Types::UserType, null: true
+
     def recipe_list
       Recipe.all
     end
@@ -59,6 +61,10 @@ module Types
       return unless recipe_ingredient.class.name == 'RecipeIngredient'
 
       recipe_ingredient
+    end
+
+    def viewer
+      context[:warden].user
     end
 
     private
