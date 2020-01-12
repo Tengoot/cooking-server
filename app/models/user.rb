@@ -12,8 +12,9 @@ class User < ApplicationRecord
   /x.freeze
 
   validates :nick, presence: true, uniqueness: true
-  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP,
+                                                                message: 'has wrong format' }
   validates :password, length: { in: 8..40 },
-                       format: { with: PASSWORD_FORMAT },
+                       format: { with: PASSWORD_FORMAT, message: 'is too weak' },
                        if: ->{ password.present? }
 end

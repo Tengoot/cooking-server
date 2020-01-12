@@ -8,7 +8,7 @@ module Mutations
       def resolve
         context[:warden].logout
 
-        { user: context[:viewer].user }
+        { user: context[:viewer] }
       end
     end
   end
