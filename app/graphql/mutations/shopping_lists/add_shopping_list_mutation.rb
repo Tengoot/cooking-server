@@ -11,6 +11,12 @@ module Mutations
       field :shopping_list, Types::ShoppingListType, null: true
       field :errors, [String], null: false
 
+      def authorized?(**_kwargs)
+        return true if context[:ability].can?(:create, ShoppingList)
+
+        [false, { errors: ['Not authorized']}]
+      end
+
       def resolve(people_count:, recipe_id:)
         recipe = object_from_id('recipe', recipe_id, context)
         shopping_list = ::ShoppingLists::Creator.new(recipe: recipe,

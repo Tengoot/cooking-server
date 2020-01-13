@@ -10,6 +10,12 @@ module Mutations
       field :success, Boolean, null: true
       field :errors, [String], null: false
 
+      def authorized?(**kwargs)
+        return true if context[:ability].can?(:destroy, kwargs[:shopping_list])
+
+        [false, { errors: ['Not authorized']}]
+      end
+
       def resolve(shopping_list:)
         if shopping_list.destroy
           { success: true, errors: [] }
