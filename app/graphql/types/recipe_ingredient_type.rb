@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Types
   class RecipeIngredientType < BaseObject
     implements GraphQL::Relay::Node.interface
