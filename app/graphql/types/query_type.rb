@@ -33,6 +33,11 @@ module Types
 
     field :viewer, Types::UserType, null: true
 
+    field :shopping_lists, Types::ShoppingListType.connection_type,
+          null: false, max_page_size: 50 do
+      argument :archived, Boolean, required: false
+    end
+
     def recipe_list
       Recipe.all
     end
@@ -61,6 +66,10 @@ module Types
       return unless recipe_ingredient.class.name == 'RecipeIngredient'
 
       recipe_ingredient
+    end
+
+    def shopping_lists(archived: false)
+      ShoppingList.where(archived: archived, user: viewer)
     end
 
     def viewer

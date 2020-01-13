@@ -6,5 +6,7 @@ module Types
     extend Mutations::Recipes::Loader
     extend Mutations::Ingredients::Loader
     extend Mutations::RecipeIngredients::Loader
+    extend Mutations::ShoppingLists::Loader
+    extend Mutations::ShoppingListItems::Loader
   end
 end
