@@ -12,7 +12,8 @@ class GraphqlController < ApplicationController
     operation_name = params[:operationName]
     context = {
       warden: warden,
-      viewer: viewer
+      viewer: viewer,
+      ability: viewer_ability
     }
     result = CookingServerSchema.execute(query, variables: variables,
                                                 context: context,
@@ -24,6 +25,10 @@ class GraphqlController < ApplicationController
 
   def viewer
     warden&.user
+  end
+
+  def viewer_ability
+    Ability.new(viewer)
   end
 
   def warden

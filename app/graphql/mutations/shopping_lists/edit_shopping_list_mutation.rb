@@ -13,6 +13,12 @@ module Mutations
       field :shopping_list, Types::ShoppingListType, null: true
       field :errors, [String], null: false
 
+      def authorized?(**kwargs)
+        return true if context[:ability].can?(:edit, kwargs[:shopping_list])
+
+        [false, { errors: ['Not authorized']}]
+      end
+
       def resolve(**kwargs)
         shopping_list = kwargs[:shopping_list]
         shopping_list.assign_attributes(kwargs.except(:shopping_list))
