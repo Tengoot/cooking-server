@@ -17,10 +17,14 @@ gem 'redis', '~> 4.0'
 gem 'bcrypt', '~> 3.1.7'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
+# The authorization Gem for Ruby on Rails
+gem 'cancancan'
 # Ruby implementation of GraphQL
 gem 'graphql'
 # A query batching executor for the graphql gem
 gem 'graphql-batch'
+# Simple authorization interface for GraphQL
+gem 'graphql-guard'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 # File attachment toolkit for Ruby applications

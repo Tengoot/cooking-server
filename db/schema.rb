@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_12_14_205018) do
+ActiveRecord::Schema.define(version: 2020_01_12_204438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,28 @@ ActiveRecord::Schema.define(version: 2019_12_14_205018) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "shopping_list_items", force: :cascade do |t|
+    t.boolean "ticked", default: false, null: false
+    t.bigint "shopping_list_id", null: false
+    t.bigint "recipe_ingredient_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipe_ingredient_id"], name: "index_shopping_list_items_on_recipe_ingredient_id"
+    t.index ["shopping_list_id"], name: "index_shopping_list_items_on_shopping_list_id"
+  end
+
+  create_table "shopping_lists", force: :cascade do |t|
+    t.boolean "archived", default: false, null: false
+    t.string "note", limit: 512, default: "", null: false
+    t.integer "people_count", null: false
+    t.bigint "recipe_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["recipe_id"], name: "index_shopping_lists_on_recipe_id"
+    t.index ["user_id"], name: "index_shopping_lists_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "nick", limit: 256, null: false
     t.string "email", null: false
@@ -60,4 +82,8 @@ ActiveRecord::Schema.define(version: 2019_12_14_205018) do
 
   add_foreign_key "recipe_ingredients", "ingredients"
   add_foreign_key "recipe_ingredients", "recipes"
+  add_foreign_key "shopping_list_items", "recipe_ingredients"
+  add_foreign_key "shopping_list_items", "shopping_lists"
+  add_foreign_key "shopping_lists", "recipes"
+  add_foreign_key "shopping_lists", "users"
 end

@@ -3,9 +3,12 @@
 require 'graphql/batch'
 
 class CookingServerSchema < GraphQL::Schema
-  mutation(Types::MutationType)
-  query(Types::QueryType)
-  use(GraphQL::Batch)
+  mutation Types::MutationType
+  query Types::QueryType
+  use GraphQL::Batch
+  use GraphQL::Guard.new(
+        not_authorized: ->(type, field) { GraphQL::ExecutionError.new("Not authorized to access #{type}.#{field}") }
+      )
 
   rescue_from(ActiveRecord::RecordNotFound) do |_err, _obj, _args, _ctx, field|
     raise GraphQL::ExecutionError, "#{_err.model} not found"
@@ -29,6 +32,10 @@ class CookingServerSchema < GraphQL::Schema
       Types::IngredientType
     when RecipeIngredient
       Types::RecipeIngredientType
+    when ShoppingList
+      Types::ShoppingListType
+    when ShoppingListItem
+      Types::ShoppingListItemType
     else
       raise("Unexpected object: #{obj}")
     end

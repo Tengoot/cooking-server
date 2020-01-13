@@ -1,4 +1,4 @@
-Rails.application.config.middleware.insert_after Rack::ETag, Warden::Manager do |manager|
+Rails.application.config.middleware.insert_after ActionDispatch::Session::CookieStore, Warden::Manager do |manager|
   manager.failure_app = GraphqlController
 
   manager.serialize_into_session do |user|
