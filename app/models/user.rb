@@ -12,6 +12,7 @@ class User < ApplicationRecord
   /x.freeze
 
   has_many :shopping_lists, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   validates :nick, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP,
