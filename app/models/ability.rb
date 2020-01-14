@@ -18,5 +18,6 @@ class Ability
     can :manage, ShoppingListItem do |s_item|
       s_item.shopping_list.user_id == user.id
     end
+    can :manage, Favorite, user_id: user.id
   end
 end

@@ -2,11 +2,17 @@
 
 module Types
   class QueryType < Types::BaseObject
+
     add_field(GraphQL::Types::Relay::NodeField)
     add_field(GraphQL::Types::Relay::NodesField)
 
     field :recipe_list, Types::RecipeType.connection_type,
           null: false, max_page_size: 50
+
+    field :favorite_recipes, Types::RecipeType.connection_type,
+          null: false, max_page_size: 50,
+          guard: ->(_obj, _args, ctx) { ctx[:viewer].present? },
+          mask: ->(ctx) { ctx[:viewer].present? }
 
     field :show_recipe, Types::RecipeType,
           null: false do
@@ -40,6 +46,10 @@ module Types
 
     def recipe_list
       Recipe.all
+    end
+
+    def favorite_recipes
+      Recipe.joins(:favorites).where(favorites: { user_id: context[:viewer].id })
     end
 
     def show_recipe(recipe_id:)

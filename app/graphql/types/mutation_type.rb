@@ -8,5 +8,6 @@ module Types
     extend Mutations::RecipeIngredients::Loader
     extend Mutations::ShoppingLists::Loader
     extend Mutations::ShoppingListItems::Loader
+    extend Mutations::Favorites::Loader
   end
 end

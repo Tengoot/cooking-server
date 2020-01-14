@@ -7,7 +7,7 @@ module Mutations
 
       argument :shopping_list_id, ID, loads: Types::ShoppingListType, required: true
 
-      field :success, Boolean, null: true
+      field :success, Boolean, null: false
       field :errors, [String], null: false
 
       def authorized?(**kwargs)

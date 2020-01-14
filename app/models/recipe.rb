@@ -6,6 +6,7 @@ class Recipe < ApplicationRecord
   has_many :recipe_ingredients, dependent: :destroy
   has_many :ingredients, through: :recipe_ingredients
   has_many :shopping_lists, dependent: :destroy
+  has_many :favorites, dependent: :destroy
 
   validates :title, :time_to_prepare,
             presence: true, length: { maximum: 256 }
