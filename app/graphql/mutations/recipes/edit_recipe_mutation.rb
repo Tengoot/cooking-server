@@ -11,6 +11,7 @@ module Mutations
       argument :short_description, String, required: false
       argument :description, String, required: false
       argument :people_count, Integer, required: false
+      argument :image_data_uri, String, required: false
 
       field :recipe, Types::RecipeType, null: true
       field :errors, [String], null: false

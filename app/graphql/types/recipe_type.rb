@@ -12,6 +12,7 @@ module Types
     field :description, String, null: false
     field :people_count, Integer, null: false
     field :average_rating, Float, null: false
+    field :image_data_uri, String, null: true
     field :recipe_ingredients, [Types::RecipeIngredientType], null: false
     field :comments, [Types::CommentType], null: false
 
