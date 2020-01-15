@@ -14,6 +14,11 @@ module Types
           guard: ->(_obj, _args, ctx) { ctx[:viewer].present? },
           mask: ->(ctx) { ctx[:viewer].present? }
 
+    field :followed_recipes, Types::RecipeType.connection_type,
+          null: false, max_page_size: 50,
+          guard: ->(_obj, _args, ctx) { ctx[:viewer].present? },
+          mask: ->(ctx) { ctx[:viewer].present? }
+
     field :show_recipe, Types::RecipeType,
           null: false do
       argument :recipe_id, ID, required: true
@@ -50,6 +55,10 @@ module Types
 
     def favorite_recipes
       Recipe.joins(:favorites).where(favorites: { user_id: context[:viewer].id })
+    end
+
+    def followed_recipes
+      Recipe.distinct.joins(user: :observations).where(follows: { follower_id: context[:viewer].id })
     end
 
     def show_recipe(recipe_id:)

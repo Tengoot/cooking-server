@@ -19,5 +19,6 @@ class Ability
       s_item.shopping_list.user_id == user.id
     end
     can :manage, Favorite, user_id: user.id
+    can :manage, Follow, follower_id: user.id
   end
 end

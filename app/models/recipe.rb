@@ -8,6 +8,8 @@ class Recipe < ApplicationRecord
   has_many :shopping_lists, dependent: :destroy
   has_many :favorites, dependent: :destroy
 
+  belongs_to :user
+
   validates :title, :time_to_prepare,
             presence: true, length: { maximum: 256 }
   validates :short_description, length: { maximum: 512 }, allow_blank: true

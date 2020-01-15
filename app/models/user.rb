@@ -13,6 +13,11 @@ class User < ApplicationRecord
 
   has_many :shopping_lists, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :follows, foreign_key: :follower_id, dependent: :destroy
+  has_many :users, through: :follows
+  has_many :observations, class_name: 'Follow', dependent: :destroy
+  has_many :followers, through: :observations
+  has_many :recipes, dependent: :destroy
 
   validates :nick, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP,
