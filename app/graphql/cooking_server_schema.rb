@@ -38,6 +38,10 @@ class CookingServerSchema < GraphQL::Schema
       Types::ShoppingListItemType
     when Favorite
       Types::FavoriteType
+    when Follow
+      Types::FollowType
+    when User
+      Types::UserType
     else
       raise("Unexpected object: #{obj}")
     end
