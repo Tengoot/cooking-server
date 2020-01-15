@@ -10,12 +10,13 @@ module Mutations
       argument :short_description, String, required: false
       argument :description, String, required: true
       argument :people_count, Integer, required: true
+      argument :image_data_uri, String, required: false
 
       field :recipe, Types::RecipeType, null: true
       field :errors, [String], null: false
 
       def resolve(**kwargs)
-        recipe = Recipe.new(kwargs)
+        recipe = Recipe.new(kwargs.merge(user: context[:viewer]))
         if recipe.save
           { recipe: recipe, errors: [] }
         else

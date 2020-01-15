@@ -9,5 +9,6 @@ module Types
     field :nick, String, null: false
     # TODO: POLICY
     field :email, String, null: true
+    field :avatar_data_uri, String, null: true
   end
 end
