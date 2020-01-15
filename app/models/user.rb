@@ -18,6 +18,7 @@ class User < ApplicationRecord
   has_many :observations, class_name: 'Follow', dependent: :destroy
   has_many :followers, through: :observations
   has_many :recipes, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :nick, presence: true, uniqueness: true
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP,

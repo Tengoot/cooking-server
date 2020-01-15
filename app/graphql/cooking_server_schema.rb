@@ -42,6 +42,8 @@ class CookingServerSchema < GraphQL::Schema
       Types::FollowType
     when User
       Types::UserType
+    when Comment
+      Types::CommentType
     else
       raise("Unexpected object: #{obj}")
     end

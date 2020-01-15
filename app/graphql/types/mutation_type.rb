@@ -10,5 +10,6 @@ module Types
     extend Mutations::ShoppingListItems::Loader
     extend Mutations::Favorites::Loader
     extend Mutations::Follows::Loader
+    extend Mutations::Comments::Loader
   end
 end
