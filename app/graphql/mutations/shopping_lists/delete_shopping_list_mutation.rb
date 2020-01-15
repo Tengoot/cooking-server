@@ -20,7 +20,7 @@ module Mutations
         if shopping_list.destroy
           { success: true, errors: [] }
         else
-          { success: false, errors: recipe.errors.full_messages }
+          { success: false, errors: shopping_list.errors.full_messages }
         end
       end
     end
