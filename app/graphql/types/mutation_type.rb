@@ -11,5 +11,6 @@ module Types
     extend Mutations::Favorites::Loader
     extend Mutations::Follows::Loader
     extend Mutations::Comments::Loader
+    extend Mutations::Users::Loader
   end
 end

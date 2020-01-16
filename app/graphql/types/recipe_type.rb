@@ -27,9 +27,7 @@ module Types
     def average_rating
       return 0.0 unless object.comments.present?
 
-      loaded_comments = GraphQL::Batch.batch { comments }
-
-      operation_hash = loaded_comments
+      operation_hash = object.comments
                              .select(&:rating)
                              .group_by(&:rating)
                              .transform_values { |c| c.size }
