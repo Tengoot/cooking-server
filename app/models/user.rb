@@ -15,6 +15,7 @@ class User < ApplicationRecord
 
   has_many :shopping_lists, dependent: :destroy
   has_many :favorites, dependent: :destroy
+  has_many :favorite_recipes, through: :favorites, source: :recipe
   has_many :follows, foreign_key: :follower_id, dependent: :destroy
   has_many :users, through: :follows
   has_many :observations, class_name: 'Follow', dependent: :destroy

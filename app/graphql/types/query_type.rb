@@ -50,15 +50,20 @@ module Types
     end
 
     def recipe_list
-      Recipe.all
+      Recipe.includes(:comments).all
     end
 
     def favorite_recipes
-      Recipe.joins(:favorites).where(favorites: { user_id: context[:viewer].id })
+      Recipe.includes(:comments)
+            .joins(:favorites)
+            .where(favorites: { user_id: context[:viewer].id })
     end
 
     def followed_recipes
-      Recipe.distinct.joins(user: :observations).where(follows: { follower_id: context[:viewer].id })
+      Recipe.includes(:comments)
+            .distinct
+            .joins(user: :observations)
+            .where(follows: { follower_id: context[:viewer].id })
     end
 
     def show_recipe(recipe_id:)
