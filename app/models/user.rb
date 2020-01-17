@@ -29,4 +29,5 @@ class User < ApplicationRecord
   validates :password, length: { in: 8..40 },
                        format: { with: PASSWORD_FORMAT, message: 'is too weak' },
                        if: ->{ password.present? }
+  validates :admin, :mod, inclusion: { in: [true, false] }
 end
