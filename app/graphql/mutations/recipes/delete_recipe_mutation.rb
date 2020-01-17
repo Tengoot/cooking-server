@@ -10,6 +10,12 @@ module Mutations
       field :success, Boolean, null: true
       field :errors, [String], null: false
 
+      def authorized?(**kwargs)
+        return true if context[:ability].can?(:delete, kwargs[:recipe])
+
+        [false, { errors: ['Not authorized']}]
+      end
+
       def resolve(**kwargs)
         recipe = kwargs[:recipe]
 
