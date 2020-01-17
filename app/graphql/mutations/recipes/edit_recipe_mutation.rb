@@ -16,6 +16,12 @@ module Mutations
       field :recipe, Types::RecipeType, null: true
       field :errors, [String], null: false
 
+      def authorized?(**kwargs)
+        return true if context[:ability].can?(:edit, kwargs[:recipe])
+
+        [false, { errors: ['Not authorized']}]
+      end
+
       def resolve(**kwargs)
         recipe = kwargs[:recipe]
         recipe.assign_attributes(kwargs.except(:recipe))
