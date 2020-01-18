@@ -28,7 +28,8 @@ class User < ApplicationRecord
                                                                 message: 'has wrong format' }
   validates :password, length: { in: 8..40 },
                        format: { with: PASSWORD_FORMAT, message: 'is too weak' },
-                       if: -> { password.present? }
+                       if: ->{ password.present? }
+  validates :admin, :mod, inclusion: { in: [true, false] }
   validates :forgot_password_token, uniqueness: true, allow_nil: true
 
   def generate_password_token!
