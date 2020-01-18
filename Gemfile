@@ -31,6 +31,8 @@ gem 'rack-cors'
 gem 'shrine'
 # Authentication
 gem 'warden'
+# Application configuration
+gem 'config'
 
 group :development, :test do
   # A runtime developer console and IRB alternative with powerful introspection capabilities.

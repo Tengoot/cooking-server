@@ -28,5 +28,31 @@ class User < ApplicationRecord
                                                                 message: 'has wrong format' }
   validates :password, length: { in: 8..40 },
                        format: { with: PASSWORD_FORMAT, message: 'is too weak' },
-                       if: ->{ password.present? }
+                       if: -> { password.present? }
+  validates :forgot_password_token, uniqueness: true, allow_nil: true
+
+  def generate_password_token!
+    update!(
+      forgot_password_token: generate_token,
+      forgot_password_sent_at: Time.current
+    )
+  end
+
+  def password_token_valid?
+    (forgot_password_sent_at + 24.hours) > Time.current
+  end
+
+  def reset_password!(password)
+    update!(
+      forgot_password_token: nil,
+      forgot_password_sent_at: nil,
+      password: password
+    )
+  end
+
+  private
+
+  def generate_token
+    SecureRandom.hex(10)
+  end
 end

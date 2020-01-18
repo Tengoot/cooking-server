@@ -15,7 +15,7 @@ module Mutations
       def authorized?(**kwargs)
         return true if context[:ability].can?(:edit, kwargs[:comment])
 
-        [false, { errors: ['Not authorized']}]
+        [false, { errors: ['Not authorized'] }]
       end
 
       def resolve(**kwargs)

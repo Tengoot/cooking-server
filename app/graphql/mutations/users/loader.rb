@@ -9,6 +9,12 @@ module Mutations
                 mutation: Mutations::Users::EditUserMutation,
                 guard: ->(_obj, _args, ctx) { ctx[:viewer].present? },
                 mask: ->(ctx) { ctx[:viewer].present? }
+          field :forgot_password,
+                mutation: Mutations::Users::ForgotPasswordMutation
+          field :reset_password,
+                mutation: Mutations::Users::ResetPasswordMutation
+          field :check_forgot_password_token,
+                mutation: Mutations::Users::CheckForgotPasswordMutation
         end
       end
     end
