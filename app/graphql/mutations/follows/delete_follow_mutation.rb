@@ -19,7 +19,7 @@ module Mutations
         )
       end
 
-      def authorized?(**kwargs)
+      def authorized?(**_kwargs)
         return true if context[:ability].can?(:destroy, follow)
 
         [false, { errors: ['Not authorized']}]
