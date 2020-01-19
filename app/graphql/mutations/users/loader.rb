@@ -15,6 +15,10 @@ module Mutations
                 mutation: Mutations::Users::ResetPasswordMutation
           field :check_forgot_password_token,
                 mutation: Mutations::Users::CheckForgotPasswordMutation
+          field :change_user_role,
+                mutation: Mutations::Users::ChangeUserRoleMutation,
+                guard: ->(_obj, _args, ctx) { ctx[:viewer] && ctx[:viewer].admin? },
+                mask: ->(ctx) { ctx[:viewer] && ctx[:viewer].admin? }
         end
       end
     end

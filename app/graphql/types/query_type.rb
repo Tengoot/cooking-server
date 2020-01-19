@@ -49,6 +49,18 @@ module Types
       argument :archived, Boolean, required: false
     end
 
+    field :privileged_users, Types::UserType.connection_type,
+          null: false, max_page_size: 50,
+          guard: ->(_obj, _args, ctx) { ctx[:viewer] && (ctx[:viewer].mod? || ctx[:viewer].admin?) },
+          mask: ->(ctx) { ctx[:viewer] && (ctx[:viewer].mod? || ctx[:viewer].admin?) }
+
+    field :users, Types::UserType.connection_type,
+          null: false, max_page_size: 50,
+          guard: ->(_obj, _args, ctx) { ctx[:viewer] && (ctx[:viewer].mod? || ctx[:viewer].admin?) },
+          mask: ->(ctx) { ctx[:viewer] && (ctx[:viewer].mod? || ctx[:viewer].admin?) } do
+      argument :text, String, required: true
+    end
+
     def recipe_list
       Recipe.includes(:comments).all
     end
@@ -98,6 +110,14 @@ module Types
 
     def viewer
       context[:warden].user
+    end
+
+    def privileged_users
+      User.where(admin: true).or(User.where(mod: true))
+    end
+
+    def users(text:)
+      User.where('nick ILIKE :text OR email ILIKE :text', text: '%' + text + '%')
     end
 
     private

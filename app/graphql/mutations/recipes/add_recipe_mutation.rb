@@ -15,6 +15,12 @@ module Mutations
       field :recipe, Types::RecipeType, null: true
       field :errors, [String], null: false
 
+      def authorized?(**_kwargs)
+        return true if context[:ability].can?(:create, Recipe)
+
+        [false, { errors: ['Not authorized']}]
+      end
+
       def resolve(**kwargs)
         recipe = Recipe.new(kwargs.merge(user: context[:viewer]))
         if recipe.save

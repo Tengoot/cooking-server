@@ -15,6 +15,7 @@ module Types
     field :favorite_recipes_count, Integer, null: false
     field :followed_users_count, Integer, null: false
     field :followers_count, Integer, null: false
+    field :role, Types::UserRoleEnum, null: false
 
     def recipes
       AssociationLoader.for(User, :recipes).load(object)
@@ -34,6 +35,13 @@ module Types
 
     def followers_count
       CountLoader.for(User, :followers).load(object)
+    end
+
+    def role
+      return 'ADMIN' if object.admin?
+      return 'MODERATOR' if object.mod?
+
+      'USER'
     end
   end
 end
