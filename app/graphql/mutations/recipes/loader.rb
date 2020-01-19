@@ -17,6 +17,10 @@ module Mutations
                 mutation: Mutations::Recipes::DeleteRecipeMutation,
                 guard: ->(_obj, _args, ctx) { ctx[:viewer].present? },
                 mask: ->(ctx) { ctx[:viewer].present? }
+          field :accept_recipe,
+                mutation: Mutations::Recipes::AcceptRecipeMutation,
+                guard: ->(_obj, _args, ctx) { ctx[:viewer] && (ctx[:viewer].mod? || ctx[:viewer].admin?) },
+                mask: ->(ctx) { ctx[:viewer] && (ctx[:viewer].mod? || ctx[:viewer].admin?) }
         end
       end
     end

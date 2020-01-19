@@ -4,6 +4,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    alias_action :create, :read, :update, :destroy, to: :crud
+
     guest_abilities
 
     return unless user.present?
@@ -16,20 +18,21 @@ class Ability
   def guest_abilities; end
 
   def user_abilities(user)
-    can :manage, ShoppingList, user_id: user.id
-    can :manage, ShoppingListItem do |s_item|
+    can :crud, ShoppingList, user_id: user.id
+    can :crud, ShoppingListItem do |s_item|
       s_item.shopping_list.user_id == user.id
     end
-    can :manage, Favorite, user_id: user.id
-    can :manage, Follow, follower_id: user.id
-    can :manage, Comment, user_id: user.id
-    can :manage, User, id: user.id
-    can :manage, Recipe, user_id: user.id
+    can :crud, Favorite, user_id: user.id
+    can :crud, Follow, follower_id: user.id
+    can :crud, Comment, user_id: user.id
+    can :crud, User, id: user.id
+    can :crud, Recipe, user_id: user.id
   end
 
   def mod_abilities(_user)
     can :manage, Comment
     can :manage, Recipe
+    can :accept, Recipe
   end
 
   def admin_abilities(_user)
