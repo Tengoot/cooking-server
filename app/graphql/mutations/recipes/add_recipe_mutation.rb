@@ -11,6 +11,7 @@ module Mutations
       argument :description, String, required: true
       argument :people_count, Integer, required: true
       argument :image_data_uri, String, required: false
+      argument :recipe_ingredients_attributes, [Types::Inputs::RecipeIngredientCreateAttributes], required: false
 
       field :recipe, Types::RecipeType, null: true
       field :errors, [String], null: false
@@ -22,7 +23,10 @@ module Mutations
       end
 
       def resolve(**kwargs)
-        recipe = Recipe.new(kwargs.merge(user: context[:viewer]))
+        attributes = kwargs.merge(user: context[:viewer])
+        ri_attributes = attributes[:recipe_ingredients_attributes]
+        attributes[:recipe_ingredients_attributes] = ri_attributes.map(&:to_h) if ri_attributes
+        recipe = Recipe.new(attributes)
         if recipe.save
           { recipe: recipe, errors: [] }
         else

@@ -12,9 +12,11 @@ module Types
     field :description, String, null: false
     field :people_count, Integer, null: false
     field :average_rating, Float, null: false
-    field :image_data_uri, String, null: true
+    field :image_url, String, null: true
     field :recipe_ingredients, [Types::RecipeIngredientType], null: false
     field :comments, [Types::CommentType], null: false
+    field :user, Types::UserType, null: false
+    field :created_at, String, null: false
 
     def recipe_ingredients
       AssociationLoader.for(Recipe, :recipe_ingredients).load(object)
@@ -22,6 +24,10 @@ module Types
 
     def comments
       AssociationLoader.for(Recipe, :comments).load(object)
+    end
+
+    def user
+      RecordLoader.for(User).load(object.user_id)
     end
 
     def average_rating

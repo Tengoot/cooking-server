@@ -22,4 +22,10 @@ Rails.application.configure do
   config.active_record.migration_error = :page_load
   config.active_record.verbose_query_logs = true
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+  config.middleware.insert_before 0, Rack::Cors do
+    allow do
+      origins 'localhost:3001'
+      resource '*', headers: :any, methods: [:get, :post, :options], credentials: true
+    end
+  end
 end

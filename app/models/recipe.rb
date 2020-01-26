@@ -21,4 +21,6 @@ class Recipe < ApplicationRecord
   validates :accepted, inclusion: { in: [true, false] }
 
   scope :not_accepted, -> { where(accepted: false) }
+
+  accepts_nested_attributes_for :recipe_ingredients, allow_destroy: true
 end

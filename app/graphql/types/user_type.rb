@@ -9,7 +9,7 @@ module Types
     field :nick, String, null: false
     field :email, String, null: false,
           guard: ->(type_obj, _args, ctx) { type_obj.object.id == ctx[:viewer]&.id }
-    field :avatar_data_uri, String, null: true
+    field :avatar_url, String, null: true
     field :recipes, Types::RecipeType.connection_type, null: true, max_page_size: 50
     field :recipe_count, Integer, null: false
     field :favorite_recipes_count, Integer, null: false

@@ -16,6 +16,11 @@ module Mutations
         user = User.new(kwargs)
 
         if user.save
+          context[:warden].set_user(user)
+          context[:warden].request.session_options[:expire_after] = 14.days
+          context[:warden].request.session_options[:domain] = 'localhost'
+          context[:warden].request.session_options[:secure] = false
+
           { user: user, errors: [] }
         else
           { user: nil, errors: user.errors.full_messages }

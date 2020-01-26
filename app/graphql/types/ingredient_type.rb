@@ -10,5 +10,6 @@ module Types
     field :description, String, null: true
     field :average_price, Float, null: true
     field :kcal, Integer, null: true
+    field :image_url, String, null: true
   end
 end

@@ -2,12 +2,10 @@
 
 module Types
   class QueryType < Types::BaseObject
-
     add_field(GraphQL::Types::Relay::NodeField)
     add_field(GraphQL::Types::Relay::NodesField)
 
-    field :recipe_list, Types::RecipeType.connection_type,
-          null: false, max_page_size: 50
+    field :recipe_list, Types::RecipeType.connection_type, null: false
 
     field :favorite_recipes, Types::RecipeType.connection_type,
           null: false, max_page_size: 50,
@@ -30,6 +28,10 @@ module Types
     field :show_ingredient, Types::IngredientType,
           null: false do
       argument :ingredient_id, ID, required: true
+    end
+
+    field :ingredient_search, [Types::IngredientType], null: false do
+      argument :name, String, required: true
     end
 
     field :recipe_ingredient_list, Types::RecipeIngredientType.connection_type,
@@ -97,6 +99,14 @@ module Types
       RecipeIngredient.where(recipe_id: recipe.id)
     end
 
+    def ingredient_search(name:)
+      return [] if !name || name.length < 3
+
+      Ingredient.where('name ILIKE :text', text: '%' + name + '%')
+                .order("name ILIKE '%#{name}%'")
+                .limit(5)
+    end
+
     def show_recipe_ingredient(recipe_ingredient_id:)
       recipe_ingredient = find(node_id: recipe_ingredient_id)
       return unless recipe_ingredient.class.name == 'RecipeIngredient'
@@ -105,7 +115,7 @@ module Types
     end
 
     def shopping_lists(archived: false)
-      ShoppingList.where(archived: archived, user: viewer)
+      ShoppingList.where(archived: archived, user: viewer).order(:updated_at)
     end
 
     def viewer
